@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="D:/Proyectos Univer/TALLERWEB/TALLERWEB/Colegio.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="0"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="2121"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,13:mainAdministrador"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1">-- Tabla Docentes
+CREATE TABLE Docentes (
+    id_docente INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombres VARCHAR(100) NOT NULL,
+    apellido_paterno VARCHAR(100) NOT NULL,
+    apellido_materno VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    contraseña VARCHAR(100) NOT NULL,
+    especialidad VARCHAR(100)
+);
+
+-- Tabla Administrador
+CREATE TABLE Administrador (
+    id_admin INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre VARCHAR(100) NOT NULL,
+    apellido_paterno VARCHAR(100) NOT NULL,
+    apellido_materno VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    contraseña VARCHAR(100) NOT NULL
+);
+
+-- Tabla Cursos
+CREATE TABLE Cursos (
+    id_curso INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre_curso VARCHAR(100) NOT NULL,
+    id_docente INTEGER,
+    grado VARCHAR(50),
+    FOREIGN KEY (id_docente) REFERENCES Docentes(id_docente)
+);
+
+-- Tabla Alumnos
+CREATE TABLE Alumnos (
+    id_estudiante INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre VARCHAR(100) NOT NULL,
+    apellido_paterno VARCHAR(100) NOT NULL,
+    apellido_materno VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    dni VARCHAR(20) NOT NULL UNIQUE,
+    fecha_nacimiento DATE NOT NULL,
+    grado VARCHAR(50),
+    seccion VARCHAR(50)
+);
+
+-- Tabla Padres
+CREATE TABLE Padres (
+    id_padre INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre VARCHAR(100) NOT NULL,
+    apellido_paterno VARCHAR(100) NOT NULL,
+    apellido_materno VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    contraseña VARCHAR(100) NOT NULL,
+    dni VARCHAR(20) NOT NULL UNIQUE
+);
+
+-- Tabla Inscripciones
+CREATE TABLE Inscripciones (
+    id_inscripciones INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_estudiante INTEGER,
+    id_curso INTEGER,
+    año_academico INTEGER,
+    FOREIGN KEY (id_estudiante) REFERENCES Alumnos(id_estudiante),
+    FOREIGN KEY (id_curso) REFERENCES Cursos(id_curso)
+);
+
+-- Tabla Notas
+CREATE TABLE Notas (
+    id_nota INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_inscripcion INTEGER,
+    nota_final DECIMAL(5, 2),
+    nota_primer_semestre DECIMAL(5, 2),
+    nota_segundo_semestre DECIMAL(5, 2),
+    nota_tercer_semestre DECIMAL(5, 2),
+    nota_cuarto_semestre DECIMAL(5, 2),
+    FOREIGN KEY (id_inscripcion) REFERENCES Inscripciones(id_inscripciones)
+);
+
+-- Tabla Reclamos
+CREATE TABLE Reclamos (
+    id_reclamo INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_nota INTEGER,
+    id_alumno INTEGER,
+    descripcion TEXT,
+    fecha_reclamo DATE,
+    estado_reclamo VARCHAR(50),
+    FOREIGN KEY (id_nota) REFERENCES Notas(id_nota),
+    FOREIGN KEY (id_alumno) REFERENCES Alumnos(id_estudiante)
+);
+
+-- Tabla Reportes
+CREATE TABLE Reportes (
+    id_reporte INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_nota INTEGER,
+    id_padre INTEGER,
+    fecha_generacion DATE,
+    fecha_envio DATE,
+    estado_envio VARCHAR(50),
+    detalles TEXT,
+    FOREIGN KEY (id_nota) REFERENCES Notas(id_nota),
+    FOREIGN KEY (id_padre) REFERENCES Padres(id_padre)
+);</sql><current_tab id="0"/></tab_sql></sqlb_project>
