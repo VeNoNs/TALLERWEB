@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .course-card {
+            background-color: #ffc107;
+            /* Color verde claro */
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .docente-img {
+            width: 100px;
+            height: 100px;
+            background-color: #0000ff;
+            /* Color azul */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            position: absolute;
+            right: -50px;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+            /* Centrar el texto */
+        }
+
+        .course-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .course-button {
+            background-color: #8b4513;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .container {
+            margin-top: 40px;
+            /* Margen superior */
+            margin-bottom: 40px;
+            /* Margen inferior */
+        }
+
+        .footer {
+            padding: 20px;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+
+        .icon-img {
+            width: 200px;
+            /* Ajusta según tus necesidades */
+            height: 200px;
+            background-color: #cccccc;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-img img {
+            max-width: 100px;
+            max-height: 100px;
+        }
+
+        .nav-link {
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            width: 120px;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #FFFFFF;
+        }
+
+        .nav-link.active {
+            background-color: #ffc107;
+            color: #000 !important;
+        }
+
+        .navbar-nav.ml-auto {
+            margin-left: 0%;
+        }
+
+        .nav-link.border-white {
+            border: 1px solid #FFFFFF;
+        }
+
+        .navbar-brand img {
+            height: 50px;
+            /* Ajusta el tamaño según tus necesidades */
+            width: 120px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #003366;">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src="../images/logo.png" alt="Logo">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="inicioalumno.html">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="cursosalumnos.html">Cursos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="notasalumnos.html">Notas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="reclamos.html">Reclamos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="soporte.html">Soporte</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link border-white" href="#">Cerrar Sesión</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <body>
+        <div class="container">
+            <div class="course-container">
+                <div class="course-card col-md-5">
+                    <h3>CURSO 1</h3>
+                    <p>Información de curso</p>
+                    <button class="course-button" onclick="showModal('Curso 1', 'Docente 1')">Revisar Curso</button>
+                    <div class="docente-img">Imagen docente</div>
+                </div>
+                <div class="course-card col-md-5">
+                    <h3>CURSO 2</h3>
+                    <p>Información de curso</p>
+                    <button class="course-button" onclick="showModal('Curso 2', 'Docente 2')">Revisar Curso</button>
+                    <div class="docente-img">Imagen docente</div>
+                </div>
+                <div class="course-card col-md-5">
+                    <h3>CURSO 3</h3>
+                    <p>Información de curso</p>
+                    <button class="course-button" onclick="showModal('Curso 3', 'Docente 3')">Revisar Curso</button>
+                    <div class="docente-img">Imagen docente</div>
+                </div>
+                <div class="course-card col-md-5">
+                    <h3>CURSO 4</h3>
+                    <p>Información de curso</p>
+                    <button class="course-button" onclick="showModal('Curso 4', 'Docente 4')">Revisar Curso</button>
+                    <div class="docente-img">Imagen docente</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal -->
+        <div class="modal fade" id="courseModal" tabindex="-1" aria-labelledby="courseModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="courseModalLabel">Detalles del Curso</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4 id="courseName"></h4>
+                        <p id="courseTeacher"></p>
+                        <div class="row">
+                            <div class="col-8">
+                                <p><strong>Evaluaciones</strong></p>
+                            </div>
+                            <div class="col-2">
+                                <p><strong>Nota</strong></p>
+                            </div>
+                            <div class="col-2">
+                                <p><strong>Acciones</strong></p>
+                            </div>
+                        </div>
+                        <div id="evaluationsContainer">
+                            <!-- Evaluations will be inserted here dynamically -->
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">Exportar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 Tu Compañía. Todos los derechos reservados.</p>
+        </footer>
+
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script>
+            function showModal(courseName, courseTeacher) {
+                document.getElementById('courseName').textContent = courseName;
+                document.getElementById('courseTeacher').textContent = `Docente: ${courseTeacher}`;
+
+                // Sample data for evaluations
+                const evaluations = [
+                    { name: 'Evaluación 1', grade: '85' },
+                    { name: 'Evaluación 2', grade: '90' },
+                    { name: 'Evaluación 3', grade: '78' },
+                    { name: 'Nota Final', grade: '50' },
+                ];
+
+                const evaluationsContainer = document.getElementById('evaluationsContainer');
+                evaluationsContainer.innerHTML = '';
+
+                evaluations.forEach(evaluation => {
+                    const evaluationRow = document.createElement('div');
+                    evaluationRow.classList.add('row', 'mb-2');
+
+                    const evalName = document.createElement('div');
+                    evalName.classList.add('col-8');
+                    evalName.textContent = evaluation.name;
+
+                    const evalGrade = document.createElement('div');
+                    evalGrade.classList.add('col-2');
+                    evalGrade.textContent = evaluation.grade;
+
+                    const evalAction = document.createElement('div');
+                    evalAction.classList.add('col-2');
+                    const claimButton = document.createElement('button');
+                    claimButton.classList.add('btn', 'btn-warning', 'btn-sm');
+                    claimButton.textContent = 'Reclamar';
+                    claimButton.onclick = function () {
+                        window.location.href = 'soporte.html';
+                    };
+                    evalAction.appendChild(claimButton);
+
+                    evaluationRow.appendChild(evalName);
+                    evaluationRow.appendChild(evalGrade);
+                    evaluationRow.appendChild(evalAction);
+
+                    evaluationsContainer.appendChild(evaluationRow);
+                });
+
+                const courseModal = new bootstrap.Modal(document.getElementById('courseModal'));
+                courseModal.show();
+            }
+        </script>
+    </body>
+</body>
+
+</html>

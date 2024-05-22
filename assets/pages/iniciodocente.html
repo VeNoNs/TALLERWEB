@@ -1,37 +1,64 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reclamos</title>
+    <title>Inicio</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .table-container {
-            margin-top: 40px;
-            margin-bottom: 40px;
+        .cardVideo {
+            background-color: #D0DCD3;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 500px;
         }
-        .table-container h2 {
+
+        .action-card {
+            background-color: #ffc107;
+            color: black;
+            padding: 20px;
+            height: 150px;
+            width: 50%;
             text-align: center;
             margin-bottom: 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
+
+
+        .empty-space {
+            height: 20px;
+        }
+
         .footer {
             padding: 20px;
             background-color: #f8f9fa;
             text-align: center;
         }
+
         .icon-img {
             width: 200px;
+            /* Ajusta según tus necesidades */
             height: 200px;
-            background-color: #FFFFFF;
+            background-color: #cccccc;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
         }
+
         .icon-img img {
             max-width: 100px;
             max-height: 100px;
         }
+
         .nav-link {
             padding: 0.5rem 1rem; 
             border-radius: 0.25rem; 
@@ -56,12 +83,9 @@
             height: 50px; /* Ajusta el tamaño según tus necesidades */
             width: 120px;
         }
-        table thead th {
-            background-color: #ffc107;
-            color: #000;
-        }
     </style>
 </head>
+
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #003366;">
@@ -75,19 +99,16 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="inicioalumno.html">Inicio</a>
+                            <a class="nav-link active" aria-current="page" href="iniciodocente.html">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="cursosalumnos.html">Cursos</a>
+                            <a class="nav-link" href="cursos.html">Cursos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="notasalumnos.html">Notas</a>
+                            <a class="nav-link" href="reclamosdocente.html">Reclamos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="reclamos.html">Reclamos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="soporte.html">Soporte</a>
+                            <a class="nav-link" href="soportedocente.html">Soporte</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav ml-auto">
@@ -100,40 +121,36 @@
         </nav>
     </header>
 
-    <div class="container table-container">
-        <h2>HISTORIAL DE RECLAMOS</h2>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>N°</th>
-                    <th>DOCENTE</th>
-                    <th>CURSO</th>
-                    <th>ASUNTO</th>
-                    <th>FECHA</th>
-                    <th>ESTADO</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Juan Pérez</td>
-                    <td>Matemáticas</td>
-                    <td>Retraso en calificaciones</td>
-                    <td>01/01/2024</td>
-                    <td>Pendiente</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Maria López</td>
-                    <td>Física</td>
-                    <td>Error en nota final</td>
-                    <td>05/01/2024</td>
-                    <td>Resuelto</td>
-                </tr>
-                <!-- Agrega más filas según sea necesario -->
-            </tbody>
-        </table>
+    <div class="container mt-4">
+        <div class="row mt-4 align-items-center">
+            <!-- Columna para Cards de Acción y Saludo -->
+            <div class="col-md-6">
+                <h2>Bienvenido</h2>
+                <h2>Nombre del Docente</h2>
+                <div class="d-flex flex-column align-items-start mb-2">
+                    <a href="cursos.html" class="action-card">Cursos</a>
+                </div>
+                <div class="d-flex flex-column align-items-end mb-2">
+                    <a href="reclamosdocente.html" class="action-card">Historial de Reclamos</a>
+                </div>
+                <div class="d-flex flex-column align-items-start">
+                    <a href="soportedocente.html" class="action-card">Soporte</a>
+                </div>
+            </div>
+
+            <!-- Columna para el Video -->
+            <div class="col-md-6 d-flex justify-content-center align-items-center" style="min-height: 100%;">
+                <div class="cardVideo" style="width: 100%; max-width: 500px;">
+                    <video class="card-img-top" controls style="width: 100%; height: auto;">
+                        <source src="../images/mainvideo.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+        </div>
     </div>
+
+
 
     <!-- Footer -->
     <footer class="footer">
@@ -143,4 +160,5 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

@@ -10,6 +10,7 @@
             padding: 20px;
             background-color: #f8f9fa;
             text-align: center;
+            margin-top: 20px; /* Margen entre contenido y footer */
         }
         .icon-img {
             width: 200px;
@@ -39,10 +40,40 @@
             height: 30px;
         }
         .container {
-            margin-top: 20px;
+            margin-top: 50px; /* Margen entre header y contenido */
+            margin-bottom: 20px; /* Margen entre contenido y footer */
         }
         h2 {
-            margin-bottom: 20px;
+            text-align: center;
+            margin-bottom: 50px;
+            
+        }
+        .nav-link {
+            padding: 0.5rem 1rem; 
+            border-radius: 0.25rem; 
+            width: 120px; 
+            text-align: center; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            color: #FFFFFF;
+        }
+        .nav-link.active {
+            background-color: #ffc107;
+            color: #000 !important;
+        }
+        .navbar-nav.ml-auto {
+            margin-left: 0%;
+        }
+        .nav-link.border-white {
+            border: 1px solid #FFFFFF;
+        }
+        .navbar-brand img {
+            height: 50px; /* Ajusta el tamaño según tus necesidades */
+            width: 120px;
+        }
+        h2 {
+            margin-top: 20px; /* Margen superior del título */
         }
     </style>
 </head>
@@ -51,30 +82,32 @@
         <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #003366;">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
-                    <img src="../images/logo.png" alt="Logo">
+                    <img src="../images/logo.png" alt="Logo"> 
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
+                    <ul class="navbar-nav mx-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="inicio.html">Inicio</a>
+                            <a class="nav-link" aria-current="page" href="inicioalumno.html">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="cursos.html">Cursos</a>
+                            <a class="nav-link" href="cursosalumnos.html">Cursos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="notasalumnos.html">Notas</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="reclamos.html">Reclamos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="alumnos.html">Alumnos</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="soporte.html">Soporte</a>
                         </li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Cerrar Sesión</a>
+                            <a class="nav-link border-white" href="#">Cerrar Sesión</a>
                         </li>
                     </ul>
                 </div>
@@ -83,14 +116,15 @@
     </header>
 
     <div class="container">
-        <h2>Calificaciones de Curso</h2>
+        <h2>Calificaciones por Bimestre Alumno</h2>
         <table class="table table-bordered grades-table">
             <thead>
                 <tr>
                     <th>Materia</th>
-                    <th>Primer Trimestre</th>
-                    <th>Segundo Trimestre</th>
-                    <th>Tercer Trimestre</th>
+                    <th>Primer Bimestre</th>
+                    <th>Segundo Bimestre</th>
+                    <th>Tercer Bimestre</th>
+                    <th>Cuarto Bimestre</th>
                     <th>Promedio Final</th>
                 </tr>
             </thead>
@@ -130,4 +164,3 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

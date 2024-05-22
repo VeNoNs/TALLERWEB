@@ -6,170 +6,138 @@
     <title>Cursos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .footer {
-            padding: 20px;
-            background-color: #f8f9fa;
-            text-align: center;
-        }
-        .icon-img {
-            width: 200px; /* Ajusta según tus necesidades */
-            height: 200px;
-            background-color: #cccccc;
-            border-radius: 50%;
+        body {
             display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .icon-img img {
-            max-width: 100px;
-            max-height: 100px;
-        }
-        .container {
-            display: flex;
-            width: 97.5%;
-            padding: 15px;
+            min-height: 100vh;
+            flex-direction: column;
         }
 
-        .tabla-izquierda {
+        .sidebar {
+            margin-top: 20px;
             width: 250px;
-            height: 710px;
-            background-color: #8DC63F; 
+            background-color: #003366;
+            padding: 20px;
+            color: white;
+            height: calc(100vh - 56px); /* Ajuste la altura para no incluir la altura de la navbar */
+            position: absolute;
+            top: 56px; /* Colocar la barra lateral debajo de la navbar */
+        }
+
+        .sidebar h2 {
+            color: #ffc107;
+            font-size: 24px;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin: 10px 0;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            display: block;
             padding: 10px;
-            border-radius: 3%;
+            background-color: #004080;
+            border-radius: 5px;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: #0059b3;
+        }
+
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .content-header {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
-            margin-right: 20px; /* Espacio entre las dos tablas */
+            margin-bottom: 20px;
         }
 
-        .titulo-botones {
-            display: flex;
-            margin-bottom: 10px;
+        .content-header select, .content-header input {
+            margin-right: 10px;
         }
 
-        .titulo-boton {
-            width: 120px;
-            background-color: #8B572A;
-            color: white;
-            padding: 10px;
-            font-weight: bold;
-            text-align: center;
-            border: none;
-            margin: 0;
-            border-radius: 3%;
-            cursor: pointer;
-        }
-
-        .titulo-botones .titulo-boton:first-child {
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-        }
-
-        .titulo-botones .titulo-boton:last-child {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-        }
-
-        .curso-select {
-            width: 100%;
-            height: 700px;
-            background-color: #FFE600; 
-            color: black;
-            border: 0px ;
-            padding: 10px;
-            font-size: 16px;
-            box-sizing: border-box;
-            border-radius: 3%;
-            overflow: hidden; /* Permitir el desplazamiento vertical */
-        }
-
-        .curso-select option {
-            padding: 44px; 
-            border-radius: 4%;
-        }
-
-        #buscadorAlumnos {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            margin-bottom: 10px;
-            border-radius: 3%;
-            border: 0px solid #ccc;
-            background-color: #FFE600;
-        }
-
-        .tabla-derecha {
-            flex-grow: 1; 
-            padding: 10px;
-            background-color: #f5f5f5; /* Color de fondo de la tabla */
-            border-radius: 3%;
+        .table-container {
             overflow-x: auto;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .botones-derecha {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 10px;
-        }
-
-        .exportar-boton {
-            background-color: #8B572A;
-            color: white;
-            padding: 10px 20px;
-            font-weight: bold;
-            border: none;
-            border-radius: 3%;
-            cursor: pointer;
         }
 
         table {
             width: 100%;
-            border-collapse: separate; /* Usar border-collapse: separate para permitir el uso de border-spacing */
-            border-spacing: 10px; /* Separación entre las celdas */
-            table-layout: fixed; 
+            border-collapse: collapse;
         }
 
         th, td {
             padding: 10px;
             text-align: center;
             border: 1px solid #ddd;
-            word-wrap: break-word; /* Permitir que las palabras se dividan para ajustar el contenido */
-            border-radius: 10px; 
-            background-color: #fff; 
         }
 
         th {
-            background-color: #8B572A;
+            background-color: #003366;
             color: white;
         }
 
-        tbody tr:nth-child(even) {
-            background-color: #f2f2f2;
+        tfoot button {
+            margin: 10px 5px;
         }
 
-        th, td:nth-child(1) {
-            background-color: #FFE600; /* Color de fondo de la columna "Alumno" */
+        .modal-content {
+            padding: 20px;
         }
 
-        td:nth-child(2), td:nth-child(3), td:nth-child(4), td:nth-child(5), td:nth-child(6), td:nth-child(7),  {
-            background-color: #FFFFFF; /* Color de fondo para las notas */
+        .modal-header, .modal-footer {
+            border: none;
         }
 
-        td:nth-child(8){
-        background-color: #EE2737;
-        color: white;
+        .footer {
+            padding: 20px;
+            background-color: #f8f9fa;
+            text-align: center;
         }
 
-        th:nth-child(2), th:nth-child(3), th:nth-child(4), th:nth-child(5), th:nth-child(6), th:nth-child(7), th:nth-child(8) {
-            background-color: #EE2737; /* Color de fondo de los encabezados de las notas */
+        .navbar-brand img {
+            height: 50px;
+            width: 120px;
+        }
+        .nav-link {
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            width: 120px;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #FFFFFF;
         }
 
-        tbody tr:hover {
-            background-color: #c1d9f0; /* Color de fondo al pasar el mouse */
+        .nav-link.active {
+            background-color: #ffc107;
+            color: #000 !important;
         }
 
+        .navbar-nav.ml-auto {
+            margin-left: 0%;
+        }
+
+        .nav-link.border-white {
+            border: 1px solid #FFFFFF;
+        }
+
+        .navbar-brand img {
+            height: 50px;
+            /* Ajusta el tamaño según tus necesidades */
+            width: 120px;
+        }
     </style>
 </head>
 <body>
@@ -177,30 +145,29 @@
         <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #003366;">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
-                    <img src="../images/logo.png" alt="Logo" height="30"> 
+                    <img src="../images/logo.png" alt="Logo">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
+                    <ul class="navbar-nav mx-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="inicio.html">Inicio</a>
+                            <a class="nav-link" aria-current="page" href="iniciodocente.html">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="cursos.html">Cursos</a>
+                            <a class="nav-link active" href="cursos.html">Cursos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="reclamos.html">Reclamos</a>
+                            <a class="nav-link" href="reclamosdocente.html">Reclamos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="alumnos.html">Alumnos</a>
+                            <a class="nav-link" href="soportedocente.html">Soporte</a>
                         </li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="soporte.html">Soporte</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Cerrar Sesión</a>
+                            <a class="nav-link border-white" href="#">Cerrar Sesión</a>
                         </li>
                     </ul>
                 </div>
@@ -208,25 +175,32 @@
         </nav>
     </header>
 
-    <div class="container">
-        <div class="tabla-izquierda">
-            <div class="titulo-botones">
-                <button class="titulo-boton">L. Alumnos</button>
-                <button class="titulo-boton">L. Cursos</button>
+    <div class="sidebar">
+        <h2>Cursos</h2>
+        <ul id="cursoList">
+            <li><a href="#" onclick="selectCurso('curso1')">Curso 1</a></li>
+            <li><a href="#" onclick="selectCurso('curso2')">Curso 2</a></li>
+            <li><a href="#" onclick="selectCurso('curso3')">Curso 3</a></li>
+        </ul>
+    </div>
+    
+    <div class="content">
+        <div class="content-header">
+            <div>
+                <select id="bimestreSelect" class="form-select">
+                    <option value="1">Bimestre 1</option>
+                    <option value="2">Bimestre 2</option>
+                    <option value="3">Bimestre 3</option>
+                    <option value="4">Bimestre 4</option>
+                </select>
+                <input type="text" id="buscadorAlumnos" class="form-control" placeholder="Buscar alumno...">
             </div>
-            <input type="text" id="buscadorAlumnos" placeholder="Buscar alumno...">
-            <select class="curso-select" multiple id="cursoSelect">
-                <option value="curso1">Curso Enseñado 1</option>
-                <option value="curso2">Curso Enseñado 2</option>
-                <option value="curso3">Curso Enseñado 3</option>
-                <option value="curso4">Curso Enseñado 4</option>
-                <option value="curso5">Curso Enseñado 5</option>
-            </select>
+            <div>
+                <button class="btn btn-primary" onclick="openModal()">Ingresar Notas</button>
+                <button class="btn btn-secondary">Exportar</button>
+            </div>
         </div>
-        <div class="tabla-derecha">
-            <div class="botones-derecha">
-                <button class="exportar-boton">Exportar</button>
-            </div>
+        <div class="table-container">
             <table id="tablaNotas">
                 <thead>
                     <tr>
@@ -241,48 +215,72 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Promedio de aula</td>
-                        <td>14</td>
-                        <td>13</td>
-                        <td>13</td>
-                        <td>15</td>
-                        <td>18</td>
-                        <td>12</td>
-                        <td>14</td>
-                    </tr>
-                    <tr>
-                        <td>Alumno 1</td>
-                        <td>7</td>
-                        <td>8</td>
-                        <td>9</td>
-                        <td>8</td>
-                        <td>7</td>
-                        <td>8</td>
-                        <td>7.8</td>
-                    </tr>
-                    <tr>
-                        <td>Alumno 2</td>
-                        <td>6</td>
-                        <td>5</td>
-                        <td>7</td>
-                        <td>6</td>
-                        <td>7</td>
-                        <td>7</td>
-                        <td>6.5</td>
-                    </tr>
+                    <!-- Datos de los alumnos se llenarán aquí dinámicamente -->
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="8">
+                            <button class="btn btn-success" onclick="guardarNotas()">Aceptar</button>
+                        </td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>
-    <script src="script.js"></script>
 
-    <!-- Footer -->
     <footer class="footer">
-        <p>&copy; 2024 Tu Compañía. Todos los derechos reservados.</p>
+        <p>&copy; 2024 TallerWeb. Todos los derechos reservados.</p>
     </footer>
 
-    <!-- Bootstrap JS -->
+    <!-- Modal -->
+    <div class="modal fade" id="notasModal" tabindex="-1" aria-labelledby="notasModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="notasModalLabel">Editar Notas</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <select id="columnaSelect" class="form-select">
+                        <option value="nota1">Nota 1</option>
+                        <option value="nota2">Nota 2</option>
+                        <option value="nota3">Nota 3</option>
+                        <option value="pc1">PC 1</option>
+                        <option value="pc2">PC 2</option>
+                        <option value="examenFinal">Examen Final</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="habilitarEdicion()">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function selectCurso(curso) {
+            // Lógica para seleccionar el curso y cargar la tabla correspondiente
+            console.log('Curso seleccionado:', curso);
+        }
+
+        function openModal() {
+            const modal = new bootstrap.Modal(document.getElementById('notasModal'));
+            modal.show();
+        }
+
+        function habilitarEdicion() {
+            const columna = document.getElementById('columnaSelect').value;
+            // Lógica para habilitar la edición de la columna seleccionada
+            console.log('Columna a editar:', columna);
+            const modal = bootstrap.Modal.getInstance(document.getElementById('notasModal'));
+            modal.hide();
+        }
+
+        function guardarNotas() {
+            // Lógica para guardar las notas editadas
+            console.log('Notas guardadas');
+        }
+    </script>
 </body>
 </html>
