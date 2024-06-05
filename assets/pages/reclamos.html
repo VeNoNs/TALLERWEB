@@ -114,23 +114,26 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Juan Pérez</td>
-                    <td>Matemáticas</td>
-                    <td>Retraso en calificaciones</td>
-                    <td>01/01/2024</td>
-                    <td>Pendiente</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Maria López</td>
-                    <td>Física</td>
-                    <td>Error en nota final</td>
-                    <td>05/01/2024</td>
-                    <td>Resuelto</td>
-                </tr>
-                <!-- Agrega más filas según sea necesario -->
+                <?php
+                // Incluir el archivo que contiene la conexión y obtención de datos
+                include '../php/phpReclamos.php';
+
+                // Verificar si hay datos en el array de reclamos
+                if (count($reclamos) > 0) {
+                    foreach ($reclamos as $index => $reclamo) {
+                        echo "<tr>";
+                        echo "<td>" . ($index + 1) . "</td>";
+                        echo "<td>" . htmlspecialchars($reclamo['alumno']) . "</td>";
+                        echo "<td>" . htmlspecialchars($reclamo['nombre_curso']) . "</td>";
+                        echo "<td>" . htmlspecialchars($reclamo['descripcion']) . "</td>";
+                        echo "<td>" . htmlspecialchars($reclamo['fecha_reclamo']) . "</td>";
+                        echo "<td>" . htmlspecialchars($reclamo['estado_reclamo']) . "</td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='6'>No hay reclamos registrados.</td></tr>";
+                }
+                ?>
             </tbody>
         </table>
     </div>

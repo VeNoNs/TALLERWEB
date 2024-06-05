@@ -129,28 +129,25 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Matemáticas</td>
-                    <td>85</td>
-                    <td>88</td>
-                    <td>90</td>
-                    <td>87.67</td>
-                </tr>
-                <tr>
-                    <td>Ciencias</td>
-                    <td>90</td>
-                    <td>92</td>
-                    <td>85</td>
-                    <td>89.0</td>
-                </tr>
-                <tr>
-                    <td>Historia</td>
-                    <td>78</td>
-                    <td>82</td>
-                    <td>80</td>
-                    <td>80.0</td>
-                </tr>
-                <!-- Agrega más filas según sea necesario -->
+                <?php
+                include '../php/phpNotasAlumno.php';
+
+                if (!empty($calificaciones)) {
+                    foreach ($calificaciones as $calificacion) {
+                        echo "<tr>";
+                        echo "<td>" . $calificacion['materia'] . "</td>";
+                        echo "<td>" . $calificacion['primer_bimestre'] . "</td>";
+                        echo "<td>" . $calificacion['segundo_bimestre'] . "</td>";
+                        echo "<td>" . $calificacion['tercer_bimestre'] . "</td>";
+                        echo "<td>" . $calificacion['cuarto_bimestre'] . "</td>";
+                        echo "<td>" . $calificacion['promedio_final'] . "</td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    // Si no hay calificaciones, mostrar un mensaje
+                    echo "<tr><td colspan='6'>No hay calificaciones disponibles.</td></tr>";
+                }
+                ?>
             </tbody>
         </table>
     </div>
