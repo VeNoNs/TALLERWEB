@@ -1,10 +1,64 @@
+<?php
+session_start(); 
+
+// Verificar si el usuario está autenticado
+if (!isset($_SESSION['user_id'])) {
+    echo "Usuario no autenticado.";
+    exit; 
+}
+
+// Cierre de sesión
+if (isset($_GET['logout'])) {
+    session_unset();
+    session_destroy();
+    header("Location: index.php");
+    exit;
+}
+
+// Establecer la conexión a la base de datos
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "colegio";
+
+// Crear conexión
+$conn = new mysqli($servername, $username, $password, $database);
+
+// Verificar la conexión
+if ($conn->connect_error) {
+    die("Conexión fallida: " . $conn->connect_error);
+}
+
+// Obtener el ID del docente autenticado desde la sesión
+$id_docente = $_SESSION['user_id'];
+
+$sql = "SELECT nombres, apellido_paterno, apellido_materno FROM Docentes WHERE id_docente = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $id_docente);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $nombre = $row['nombres'];
+    $apellidoPaterno = $row['apellido_paterno'];
+    $apellidoMaterno = $row['apellido_materno'];
+} else {
+    $nombre = "Nombre del Docente";
+    $apellidoPaterno = "";
+    $apellidoMaterno = "";
+}
+
+$stmt->close();
+$conn->close();
+?>
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
+    <title>Inicio Docente</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .cardVideo {
@@ -87,7 +141,7 @@
 </head>
 
 <body>
-    <header>
+<header>
         <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #003366;">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
@@ -99,21 +153,21 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="iniciodocente.html">Inicio</a>
+                            <a class="nav-link active" aria-current="page" href="iniciodocente.php">Inicio</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="cursos.html">Cursos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="reclamosdocente.html">Reclamos</a>
+                            <a class="nav-link" href="reclamosdocente.php">Reclamos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="soportedocente.html">Soporte</a>
+                            <a class="nav-link" href="soportedocente.php">Soporte</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link border-white" href="#">Cerrar Sesión</a>
+                            <a class="nav-link border-white" href="iniciodocente.php?logout=true">Cerrar Sesión</a>
                         </li>
                     </ul>
                 </div>
@@ -126,15 +180,15 @@
             <!-- Columna para Cards de Acción y Saludo -->
             <div class="col-md-6">
                 <h2>Bienvenido</h2>
-                <h2>Nombre del Docente</h2>
+                <h2><?php echo "$nombre $apellidoPaterno $apellidoMaterno"; ?></h2>
                 <div class="d-flex flex-column align-items-start mb-2">
                     <a href="cursos.html" class="action-card">Cursos</a>
                 </div>
                 <div class="d-flex flex-column align-items-end mb-2">
-                    <a href="reclamosdocente.html" class="action-card">Historial de Reclamos</a>
+                    <a href="reclamosdocente.php" class="action-card">Historial de Reclamos</a>
                 </div>
                 <div class="d-flex flex-column align-items-start">
-                    <a href="soportedocente.html" class="action-card">Soporte</a>
+                    <a href="soportedocente.php" class="action-card">Soporte</a>
                 </div>
             </div>
 
@@ -149,8 +203,6 @@
             </div>
         </div>
     </div>
-
-
 
     <!-- Footer -->
     <footer class="footer">

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -75,21 +76,21 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="iniciodocente.html">Inicio</a>
+                            <a class="nav-link" aria-current="page" href="iniciodocente.php">Inicio</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="cursos.html">Cursos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="reclamosdocente.html">Reclamos</a>
+                            <a class="nav-link active" href="reclamosdocente.php">Reclamos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="soportedocente.html">Soporte</a>
+                            <a class="nav-link" href="soportedocente.php">Soporte</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link border-white" href="#">Cerrar Sesión</a>
+                            <a class="nav-link border-white" href="iniciodocente.php?logout=true">Cerrar Sesión</a>
                         </li>
                     </ul>
                 </div>
@@ -99,37 +100,68 @@
 
     <div class="container table-container">
         <h2>HISTORIAL DE RECLAMOS</h2>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>N°</th>
-                    <th>ALUMNO</th>
-                    <th>CURSO</th>
-                    <th>ASUNTO</th>
-                    <th>FECHA</th>
-                    <th>ESTADO</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Juan Pérez</td>
-                    <td>Matemáticas</td>
-                    <td>Retraso en calificaciones</td>
-                    <td>01/01/2024</td>
-                    <td>Pendiente</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Maria López</td>
-                    <td>Física</td>
-                    <td>Error en nota final</td>
-                    <td>05/01/2024</td>
-                    <td>Resuelto</td>
-                </tr>
-                <!-- Agrega más filas según sea necesario -->
-            </tbody>
-        </table>
+        
+        <?php
+        session_start(); // Iniciar o reanudar la sesión
+        error_reporting(E_ALL);
+        ini_set('display_errors', 1);
+
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $database = "colegio";
+
+        // Crear conexión
+        $conn = new mysqli($servername, $username, $password, $database);
+
+        // Verificar la conexión
+        if ($conn->connect_error) {
+            die("Conexión fallida: " . $conn->connect_error);
+        }
+
+        // Consulta SQL para obtener los reclamos del docente logueado
+        $id_docente = $_SESSION['user_id'];
+        $sql = "SELECT rd.id_reclamo, c.nombre_curso, rd.descripcion, rd.fecha_reclamo, rd.estado_reclamo
+                FROM reclamos_docente rd
+                INNER JOIN cursos c ON rd.id_curso = c.id_curso
+                WHERE rd.id_docente = $id_docente";
+
+        $result = $conn->query($sql);
+
+        if ($result === false) {
+            echo "Error en la consulta: " . $conn->error;
+        } elseif ($result->num_rows > 0) {
+            // Mostrar los resultados en una tabla
+            echo "<table class='table table-striped'>
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>CURSO</th>
+                            <th>ASUNTO</th>
+                            <th>FECHA</th>
+                            <th>ESTADO</th>
+                        </tr>
+                    </thead>
+                    <tbody>";
+            
+            while ($row = $result->fetch_assoc()) {
+                echo "<tr>
+                        <td>" . $row['id_reclamo'] . "</td>
+                        <td>" . $row['nombre_curso'] . "</td>
+                        <td>" . $row['descripcion'] . "</td>
+                        <td>" . $row['fecha_reclamo'] . "</td>
+                        <td>" . $row['estado_reclamo'] . "</td>
+                      </tr>";
+            }
+            
+            echo "</tbody></table>";
+        } else {
+            echo "No hay reclamos para mostrar.";
+        }
+
+        // Cerrar conexión
+        $conn->close();
+        ?>
     </div>
 
     <!-- Footer -->

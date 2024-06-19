@@ -1,3 +1,93 @@
+<?php
+session_start(); 
+
+// Verificar si el usuario está autenticado
+if (!isset($_SESSION['user_id'])) {
+    echo "Usuario no autenticado.";
+    exit; 
+}
+
+// Conectar a la base de datos 
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "colegio";
+
+// Crear conexión
+$conn = new mysqli($servername, $username, $password, $database);
+
+// Verificar la conexión
+if ($conn->connect_error) {
+    die("Conexión fallida: " . $conn->connect_error);
+}
+
+// Obtener el ID del docente autenticado desde la sesión
+$id_docente = $_SESSION['user_id'];
+
+// Consultar los cursos asignados al docente actual
+$sql = "SELECT id_curso, nombre_curso FROM Cursos WHERE id_docente = ?";
+$stmt = $conn->prepare($sql);
+
+// Verificar si la preparación fue exitosa
+if ($stmt === false) {
+    echo "Error en la preparación de la consulta: " . $conn->error;
+} else {
+    // Vincular parámetro y ejecutar la consulta
+    $stmt->bind_param("i", $id_docente);
+    $stmt->execute();
+
+    // Obtener resultados de la consulta
+    $result = $stmt->get_result();
+
+    // Crear un array para almacenar los cursos
+    $cursos = [];
+    while ($row = $result->fetch_assoc()) {
+        $cursos[] = $row;
+    }
+
+    // Cerrar la declaración
+    $stmt->close();
+}
+
+// Verificar si el formulario ha sido enviado
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Obtener los datos del formulario
+    $id_curso = $_POST['curso'];
+    $tema = $_POST['tema'];
+    $descripcion = $_POST['descripcion'];
+    $solicitar_llamada = isset($_POST['llamada']) ? 1 : 0; // 1 si está marcado, 0 si no
+
+    // Establecer la fecha actual
+    $fecha_reclamo = date('Y-m-d');
+    $estado_reclamo = "Pendiente"; // Estado inicial del reclamo
+
+    // Preparar la consulta SQL para insertar el reclamo en la base de datos
+    $sql = "INSERT INTO reclamos_docente (id_curso, id_docente, descripcion, fecha_reclamo, estado_reclamo) VALUES (?, ?, ?, ?, ?)";
+
+    $stmt = $conn->prepare($sql);
+
+    if ($stmt === false) {
+        echo "Error en la preparación de la consulta: " . $conn->error;
+    } else {
+        // Vincular parámetros y ejecutar la consulta
+        $stmt->bind_param("iisss", $id_curso, $id_docente, $descripcion, $fecha_reclamo, $estado_reclamo);
+
+        if ($stmt->execute()) {
+           
+        } else {
+           $stmt->error;
+        }
+
+        // Cerrar la declaración
+        $stmt->close();
+    }
+
+    // Cerrar la conexión
+    $conn->close();
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -20,7 +110,6 @@
             color: black;
             cursor: pointer;
             border-radius: 10px;
-
         }
 
         .button-container {
@@ -131,21 +220,21 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="iniciodocente.html">Inicio</a>
+                            <a class="nav-link" aria-current="page" href="iniciodocente.php">Inicio</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="cursos.html">Cursos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="reclamosdocente.html">Reclamos</a>
+                            <a class="nav-link" href="reclamosdocente.php">Reclamos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="soportedocente.html">Soporte</a>
+                            <a class="nav-link active" href="soportedocente.php">Soporte</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link border-white" href="#">Cerrar Sesión</a>
+                            <a class="nav-link border-white" href="iniciodocente.php?logout=true">Cerrar Sesión</a>
                         </li>
                     </ul>
                 </div>
@@ -158,37 +247,40 @@
             <!-- Columna para solicitud -->
             <div class="col-md-6">
                 <h2>¿Con qué necesitas ayuda?</h2>
-                <div class="d-flex flex-column align-items-start mb-2">
-                    <div class="action-card">
-                        <p><b>Seleccionar Curso</b></p>
-                        <select class="custom-select" aria-label="Selecciona una opción">
-                            <option value="1">Curso 1</option>
-                            <option value="2">Curso 2</option>
-                            <option value="3">Curso 3</option>
-                        </select>
+                <form action="soportedocente.php" method="POST">
+                    <div class="d-flex flex-column align-items-start mb-2">
+                        <div class="action-card">
+                            <p><b>Seleccionar Curso</b></p>
+                            <select class="custom-select" name="curso" aria-label="Selecciona una opción">
+                                <?php foreach ($cursos as $curso): ?>
+                                    <option value="<?= $curso['id_curso'] ?>"><?= $curso['nombre_curso'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <h2>¿Con que área tiene problemas?</h2>
-                <div class="d-flex flex-column align-items-start">
-                    <div class="action-card">
-                        <textarea id="user-input" rows="1" placeholder="Tema" width=200% height=100px></textarea>
+                    <h2>¿Con qué área tiene problemas?</h2>
+                    <div class="d-flex flex-column align-items-start">
+                        <div class="action-card">
+                            <textarea id="user-input" name="tema" rows="1" placeholder="Tema" width=200% height=100px></textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="d-flex flex-column align-items-start">
-                    <div class="action-card">
-                        <textarea id="user-input" rows="4"
-                            placeholder="Describe tu problema con el mayor detalle posible. Por favor provee cualquier dirección de correo electrónico específica."
-                            width=200% height=100px></textarea>
+                    <div class="d-flex flex-column align-items-start">
+                        <div class="action-card">
+                            <textarea id="user-input" name="descripcion" rows="4"
+                                placeholder="Describe tu problema con el mayor detalle posible. Por favor provee cualquier dirección de correo electrónico específica."
+                                width=200% height=100px></textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="d-flex flex-column align-items-start">
-                    <button class="btn-no-background">Adjuntar archivos (obcional)</button>
-                </div>
-                <input type="checkbox"> ¿Solicitar una llamada de regreso?
-                <div class="button-container">
-                    <button class="btn-yellow-no-border">Crear un ticket</button>
-                </div>
-
+                    <div class="d-flex flex-column align-items-start">
+                        <button class="btn-no-background" type="button">Adjuntar archivos (opcional)</button>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="llamada"> ¿Solicitar una llamada de regreso?
+                    </div>
+                    <div class="button-container">
+                        <button class="btn-yellow-no-border" type="submit">Crear un ticket</button>
+                    </div>
+                </form>
             </div>
 
             <!-- Columna para preguntas frecuentes -->
@@ -235,6 +327,7 @@
             </div>
         </div>
     </div>
+
     <!-- Footer -->
     <footer class="footer">
         <p>&copy; 2024 TallerWeb. Todos los derechos reservados Grupo 4.</p>
